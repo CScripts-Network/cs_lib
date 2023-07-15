@@ -9,12 +9,12 @@ Core = {
             while ESX.GetPlayerData().job == nil do
                 Citizen.Wait(500)
             end
-            Core.PlayerData = Core.GetPlayerData()
+            Core.PlayerData = ESX.GetPlayerData()
             return true
         elseif framework == 'QB' then
             while not QBCore do Wait(500); end
             while not QBCore.Functions.GetPlayerData().job do Wait(500); end
-            Core.PlayerData = Core.GetPlayerData()
+            Core.PlayerData = QBCore.Functions.GetPlayerData()
             return true
         end
         return true
@@ -28,7 +28,6 @@ Core = {
             if framework == 'ESX' then
                 ESX.ShowNotification(message, false, true, nil)
             elseif framework == 'QB' then
-                print(type, message)
                 QBCore.Functions.Notify(message, type)
             end
         end
@@ -96,6 +95,14 @@ Core = {
 
     WayPoint = function(v1, v2)
         SetNewWaypoint(v1, v2)
+    end,
+
+    TriggerCallback = function(name, cb, ...)
+        if framework == 'ESX' then
+            ESX.TriggerServerCallback(name, cb, ...)
+        elseif framework == 'QB' then
+            QBCore.Functions.TriggerCallback(name, cb, ...)
+        end
     end
 }
 

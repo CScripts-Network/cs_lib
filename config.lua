@@ -10,6 +10,9 @@ Config.Scripts = {
 function CustomNotify(type, message)
     print(type, message)
 end
+function CustomNotifyServer(type, message)
+    print(type, message)
+end
 
 function GetFramework()
     if GetResourceState('qb-core'):find('started') then

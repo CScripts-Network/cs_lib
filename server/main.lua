@@ -9,6 +9,14 @@ Core = {
         end
     end,
 
+    RegisterCallback = function(name, cb)
+        if ESX ~= nil then 
+            ESX.RegisterServerCallback(name, cb)
+        elseif QBCore ~= nil then
+            QBCore.Functions.CreateCallback(name, cb)
+        end
+    end,
+
     GiveMoney = function(source, type, amount)
         local Player = Core.GetId(tonumber(source))
         if framework == 'ESX' then
@@ -20,7 +28,47 @@ Core = {
         elseif framework == 'QB' then
             Player.Functions.AddMoney(type, tonumber(amount))
         end
-    end
+    end,
+
+    GiveItem = function(source, item, amount)
+        local Player = Core.GetId(tonumber(source))
+        if framework == 'ESX' then
+            Player.addInventoryItem(item, amount)
+        elseif framework == 'QB' then
+            Player.Functions.AddItem(item, amount)
+        end
+    end,
+
+    GetPlayers = function()
+        if framework == 'ESX' then
+            return ESX.GetPlayers()
+        elseif framework == 'QB' then
+            return QBCore.Functions.GetPlayers()
+        end
+    end,
+
+    Notification = function(source, message, type)
+        local Player = Core.GetId(tonumber(source))
+        if not type then type = 'success' end
+        if Config.CustomNotify then
+            CustomNotifyServer(type, message)
+        else
+            if framework == 'ESX' then
+                Player.ShowNotification(message, false, true, nil)
+            elseif framework == 'QB' then
+                TriggerClientEvent('QBCore:Notify', source, message)
+            end
+        end
+    end,
+
+    GetJob = function(source)
+        local Player = Core.GetId(tonumber(source))
+        if framework == 'ESX' then
+            return Player.job.name
+        elseif framework == 'QB' then
+            return Player.PlayerData.job.name
+        end
+    end,
 }
 
 local version = GetResourceMetadata(GetCurrentResourceName(), "version")
