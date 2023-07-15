@@ -69,6 +69,19 @@ Core = {
             return Player.PlayerData.job.name
         end
     end,
+
+    SubMoney = function(source, type, amount)
+        local Player = Core.GetId(tonumber(source))
+        if framework == 'ESX' then
+            if type == 'bank' then
+                Player.removeMoney(tonumber(amount))
+            else
+                Player.removeAccountMoney(type, tonumber(amount))
+            end
+        elseif framework == 'QB' then
+            Player.Functions.RemoveMoney(type, tonumber(amount))
+        end
+    end,
 }
 
 local version = GetResourceMetadata(GetCurrentResourceName(), "version")

@@ -3,7 +3,9 @@ Config = {}
 Config.CustomNotify = false
 
 Config.Scripts = {
-    ClothesMenu = 'qb-clothes' -- Supports: qb-clothes and esx_skin
+    ClothesMenu = 'qb-clothes', -- Supports: qb-clothes and esx_skin
+    Progressbar = 'progressbar', -- Supports: progressbar
+    Inventory = 'qb-inventory' -- Supports: qb-inventory
 }
 
 -- Functions

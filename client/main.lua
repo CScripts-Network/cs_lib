@@ -1,5 +1,7 @@
 local framework = GetFramework()
 local ClothesMenu = Config.Scripts.ClothesMenu
+local Progressbar = Config.Scripts.Progressbar
+local Inventory = Config.Scripts.Inventory
 
 Core = {
     PlayerData = {},
@@ -88,6 +90,10 @@ Core = {
         end
     end,
 
+    DeleteCar = function(car_to_del)
+        DeleteVehicle(car_to_del)
+    end,
+
     loadModel = function(model)
         while not HasModelLoaded(model) do Wait(0) RequestModel(model) end
         return model
@@ -103,7 +109,49 @@ Core = {
         elseif framework == 'QB' then
             QBCore.Functions.TriggerCallback(name, cb, ...)
         end
-    end
+    end,
+
+    Progressbar = function(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+        if Progressbar == 'progressbar' then
+            exports['progressbar']:Progress({
+                name = name:lower(),
+                duration = duration,
+                label = label,
+                useWhileDead = useWhileDead,
+                canCancel = canCancel,
+                controlDisables = disableControls,
+                animation = animation,
+                prop = prop,
+                propTwo = propTwo,
+            }, function(cancelled)
+                if not cancelled then
+                    if onFinish then
+                        onFinish()
+                    end
+                else
+                    if onCancel then
+                        onCancel()
+                    end
+                end
+            end)
+        end
+    end,
+
+    PlayAnimation = function(animation, dict)
+        RequestAnimDict(dict)
+        while not HasAnimDictLoaded(dict) do
+            Wait(0)
+        end
+        RequestAnimDict(dict)
+        while not HasAnimDictLoaded(dict) do Wait(1) end
+        TaskPlayAnim(PlayerPedId(), dict, animation, 2.0, 2.0, -1, 49, 0, false, false, false)
+    end,
+
+    OpenShop = function(Shop, Items)
+        if Inventory == 'qb-inventory' and framework == 'QB' then
+            TriggerServerEvent("inventory:server:OpenInventory", "shop", Shop, Items)
+        end
+    end,
 }
 
 function GetLib()
