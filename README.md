@@ -1,4 +1,5 @@
 # cs_lib
+Support Discord: https://discord.gg/2kcXW3gRzg
 
 ## How to use
 ```lua
