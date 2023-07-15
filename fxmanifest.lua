@@ -4,7 +4,7 @@ lua54 "yes"
 
 author 'CScripts Network'
 description 'CScripts Network Library'
-version '0.0.1'
+version '0.0.2'
 
 client_scripts {
 	'config.lua',
