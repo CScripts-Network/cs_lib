@@ -61,11 +61,19 @@ Core = {
         end
     end,
 
-    GetJob = function(Clothes)
+    GetJob = function()
         if framework == 'ESX' then
             return ESX.GetPlayerData().job.name
         elseif framework == 'QB' then
             return QBCore.Functions.GetPlayerData().job.name
+        end
+    end,
+
+    GetGrade = function(Clothes)
+        if framework == 'ESX' then
+            return ESX.GetPlayerData().job.grade_label
+        elseif framework == 'QB' then
+            return QBCore.Functions.GetPlayerData().job.grade.name
         end
     end,
 
@@ -152,6 +160,47 @@ Core = {
             TriggerServerEvent("inventory:server:OpenInventory", "shop", Shop, Items)
         end
     end,
+
+    GetPlayerData = function()
+        if framework == 'ESX' then
+            return ESX.GetPlayerData()
+        elseif framework == 'QB' then
+            return QBCore.Functions.GetPlayerData()
+        end
+    end,
+
+    GetAccounts = function()
+        if framework == 'ESX' then
+            return Core.GetPlayerData().accounts
+        elseif framework == 'QB' then
+            return Core.GetPlayerData().money
+        end
+    end,
+
+    GetAccount = function(account)
+        if framework == 'ESX' then
+            return Core.GetPlayerData().accounts[account].money
+        elseif framework == 'QB' then
+            return Core.GetPlayerData().money[account]
+        end
+    end,
+
+    Debug = function(o)
+        if type(o) == 'table' then
+            local s = '{ '
+            for k,v in pairs(o) do
+               if type(k) ~= 'number' then k = '"'..k..'"' end
+               s = s .. '['..k..'] = ' .. Core.Debug(v) .. ','
+            end
+            return s .. '} '
+         else
+            return tostring(o)
+         end
+    end,
+
+    PauseMenu = function()
+        return not IsPauseMenuActive()
+    end
 }
 
 function GetLib()
