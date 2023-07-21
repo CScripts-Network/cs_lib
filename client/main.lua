@@ -179,7 +179,17 @@ Core = {
 
     GetAccount = function(account)
         if framework == 'ESX' then
-            return Core.GetPlayerData().accounts[account].money
+            local accounts = ESX.GetPlayerData().accounts
+            for _, data in pairs(accounts) do
+                if data.name == 'bank' and account == 'bank' then
+                    return data.money
+                elseif data.name == 'money' and account == 'cash' then
+                    return data.money
+                elseif data.name == 'black_money' and account == 'black_money' then
+                    return data.money
+                end
+            end
+
         elseif framework == 'QB' then
             return Core.GetPlayerData().money[account]
         end
