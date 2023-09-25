@@ -2,6 +2,8 @@ local framework = GetFramework()
 local ClothesMenu = Config.Scripts.ClothesMenu
 local Progressbar = Config.Scripts.Progressbar
 local Inventory = Config.Scripts.Inventory
+local Notification = Config.Scripts.Notification
+local TextUi = Config.Scripts.TextUi
 
 Core = {
     PlayerData = {},
@@ -24,15 +26,45 @@ Core = {
 
     Notification = function(message, type)
         if not type then type = 'success' end
-        if Config.CustomNotify then
-            CustomNotify(type, message)
+        if Notification == 'ESX' then
+            ESX.ShowNotification(message, false, true, nil)
+        elseif Notification == 'OKOK' then
+            exports['okokNotify']:Alert(type, message, 3000, type, false)
+        elseif Notification == 'QB' then
+            QBCore.Functions.Notify(message, type)
         else
-            if framework == 'ESX' then
-                ESX.ShowNotification(message, false, true, nil)
-            elseif framework == 'QB' then
-                QBCore.Functions.Notify(message, type)
-            end
+            CustomNotify(type, message)
         end
+    end,
+
+    TextUI = function(id, message, color, position, btn)
+        if not type then type = 'success' end
+        if TextUi == 'ESX' then
+            ESX.ShowHelpNotification(v.Hint)
+        elseif TextUi == 'OKOK' then
+            exports['okokTextUI']:Open(message, color, position)
+        elseif TextUi == 'QB' then
+            exports['qb-core']:DrawText(message, position)
+        elseif TextUi == 'CS_SIDEBTN' then
+            TriggerEvent('cs_sidebtn:add', id, message, btn)
+        end
+    end,
+
+    RemoveTextUI = function(id)
+        if not type then type = 'success' end
+        if TextUi == 'ESX' then
+            print('[ERROR] ESX ShowHelpNotification can`t be hidden/removed')
+        elseif TextUi == 'OKOK' then
+            exports['okokTextUI']:Close()
+        elseif TextUi == 'QB' then
+            exports['qb-core']:HideText()
+        elseif TextUi == 'CS_SIDEBTN' then
+            TriggerEvent('cs_sidebtn:remove', 'help')
+        end
+    end,
+
+    DevMode = function()
+        return Config.DevMode
     end,
 
     GetGender = function()
@@ -58,6 +90,12 @@ Core = {
     SetClothes = function(Clothes)
         for k,v in pairs(Clothes) do
             SetPedComponentVariation(PlayerPedId(), v["component_id"], v["drawable"], v["texture"], 0)
+        end
+    end,
+
+    LoadDevCommands = function(Script, Commands)
+        for k,v in pairs(Commands) do
+            print('['..Script..'] Loaded `'..v..'` command')
         end
     end,
 

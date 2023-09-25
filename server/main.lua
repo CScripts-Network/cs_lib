@@ -30,6 +30,10 @@ Core = {
         end
     end,
 
+    DevMode = function()
+        return Config.DevMode
+    end,
+
     GiveItem = function(source, item, amount)
         local Player = Core.GetId(tonumber(source))
         if framework == 'ESX' then
@@ -48,16 +52,15 @@ Core = {
     end,
 
     Notification = function(source, message, type)
-        local Player = Core.GetId(tonumber(source))
         if not type then type = 'success' end
-        if Config.CustomNotify then
-            CustomNotifyServer(type, message)
+        if Config.Scripts.Notification == 'ESX' then
+            Player.ShowNotification(message, false, true, nil)
+        elseif Notification == 'OKOK' then
+            TriggerClientEvent('okokNotify:Alert', source, type, message, 3000, type, false)
+        elseif Config.Scripts.Notification == 'QB' then
+            TriggerClientEvent('QBCore:Notify', source, message)
         else
-            if framework == 'ESX' then
-                Player.ShowNotification(message, false, true, nil)
-            elseif framework == 'QB' then
-                TriggerClientEvent('QBCore:Notify', source, message)
-            end
+            CustomNotifyServer(type, message)
         end
     end,
 
