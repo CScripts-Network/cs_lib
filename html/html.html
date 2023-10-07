@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CScripts Network | https://cscripts.network</title>
+    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="flex">
+            <div class="left">
+            </div>
+            <div class="right"></div>
+        </div>
+        <div class="theme">
+            <div class="percentage"></div>
+        </div>
+    </div>
+</body>
+<script src="js.js"></script>
+<script>
+    var cancelledTimer = null;
+    
+    $('document').ready(function() {
+        Progressbar = {};
+    
+        Progressbar.Progress = function(data) {
+            clearTimeout(cancelledTimer);
+            var text = '<i class="fa-solid fa-'+data.icon+'"></i> '+data.label;
+            $('.left').html(text);
+            $("body").fadeIn('fast', function() {
+                $(".percentage").stop().css({"width": 0, "background-color": "#1787e2a6"}).animate({
+                  width: '100%'
+                }, {
+                  duration: parseInt(data.duration),
+                  'step': function(now, tween, msRemaining) {
+                    $(".right").html(Math.round(now)+"%")
+                  },
+                  complete: function() {
+                    $("body").fadeOut('fast', function() {
+                        $('.percentage').css("width", "0%");
+                        $(".right").html("0%")
+                        $.post('https://cs_lib/FinishAction', JSON.stringify({
+                            })
+                        );
+                    })
+                  }
+                });
+            });
+        };
+    
+        Progressbar.ProgressCancel = function() {
+            $(".left").text("CANCELLED");
+            $(".percentage").stop().css( {"width": "100%", "background-color": "rgba(71, 0, 0, 0.8)"});
+            $('.percentage').removeClass('cancellable');
+    
+            cancelledTimer = setTimeout(function () {
+                $("body").fadeOut('fast', function() {
+                    $(".percentage").css("width", 0);
+                    $.post('https://cs_lib/CancelAction', JSON.stringify({
+                        })
+                    );
+                });
+            }, 1000);
+        };
+    
+        Progressbar.CloseUI = function() {
+            $('.main-container').fadeOut('fast');
+        };
+        
+        window.addEventListener('message', function(event) {
+            switch(event.data.action) {
+                case 'progress':
+                    Progressbar.Progress(event.data);
+                    break;
+                case 'cancel':
+                    Progressbar.ProgressCancel();
+                    break;
+            }
+        });
+    });
+    </script>
+
+</html>

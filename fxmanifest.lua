@@ -4,7 +4,9 @@ lua54 "yes"
 
 author 'CScripts Network'
 description 'CScripts Network Library'
-version '0.0.6'
+version '0.0.7'
+
+ui_page 'html/html.html'
 
 client_scripts {
 	'config.lua',
@@ -22,4 +24,10 @@ exports {
 
 server_exports {
 	'GetLib'
+}
+
+files {
+    'html/html.html',
+    'html/css.css',
+    'html/SignikaNegative-Regular.ttf',
 }

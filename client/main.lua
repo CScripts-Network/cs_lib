@@ -20,6 +20,9 @@ Core = {
             while not QBCore.Functions.GetPlayerData().job do Wait(500); end
             Core.PlayerData = QBCore.Functions.GetPlayerData()
             return true
+        elseif framework == 'STANDALONE' then
+            print('[CS_LIB] Ready to run in standalone')
+            return true
         end
         return true
     end,
@@ -32,6 +35,10 @@ Core = {
             exports['okokNotify']:Alert(type, message, 3000, type, false)
         elseif Notification == 'QB' then
             QBCore.Functions.Notify(message, type)
+        elseif framework == 'STANDALONE' then
+            AddTextEntry('cs_lib', message)
+            BeginTextCommandThefeedPost('cs_lib')
+            EndTextCommandThefeedPostTicker(false, true)
         else
             CustomNotify(type, message)
         end
@@ -74,6 +81,8 @@ Core = {
             end)
         elseif framework == 'QB' then
             return QBCore.Functions.GetPlayerData().charinfo.gender
+        elseif framework == 'STANDALONE' then
+            return '1'
         end
     end,
 
@@ -112,6 +121,8 @@ Core = {
             return ESX.GetPlayerData().job.grade_label
         elseif framework == 'QB' then
             return QBCore.Functions.GetPlayerData().job.grade.name
+        elseif framework == 'STANDALONE' then
+            return 'unemployed'
         end
     end,
 
@@ -132,7 +143,7 @@ Core = {
                 TaskWarpPedIntoVehicle(GetPlayerPed(-1), veh, -1)
                 TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(veh))
                 SetVehicleEngineOn(veh, true, true)
-            end, coords, true)    
+            end, coords, true)  
         end
     end,
 
@@ -157,7 +168,7 @@ Core = {
         end
     end,
 
-    Progressbar = function(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+    Progressbar = function(name, icon, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
         if Progressbar == 'progressbar' then
             exports['progressbar']:Progress({
                 name = name:lower(),
@@ -169,6 +180,29 @@ Core = {
                 animation = animation,
                 prop = prop,
                 propTwo = propTwo,
+            }, function(cancelled)
+                if not cancelled then
+                    if onFinish then
+                        onFinish()
+                    end
+                else
+                    if onCancel then
+                        onCancel()
+                    end
+                end
+            end)
+        elseif Progressbar == 'default' then
+            Progress({
+                name = name:lower(),
+                duration = duration,
+                label = label,
+                useWhileDead = useWhileDead,
+                canCancel = canCancel,
+                controlDisables = disableControls,
+                animation = animation,
+                prop = prop,
+                propTwo = propTwo,
+                icon = icon,
             }, function(cancelled)
                 if not cancelled then
                     if onFinish then
@@ -254,3 +288,14 @@ Core = {
 function GetLib()
 	return Core
 end
+
+-- For testing :)
+RegisterCommand("test", function(source, args, rawCommand)
+    Core.Progressbar('stealing', 'gamepad', 'UWU', 10000, false, false, {
+        disableMovement = false,
+        disableMouse = false, 
+        disableCombat = false
+    }, {}, {}, {}, function()
+    end, function ()
+    end)
+end, false)

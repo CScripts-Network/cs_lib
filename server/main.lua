@@ -85,29 +85,34 @@ Core = {
             Player.Functions.RemoveMoney(type, tonumber(amount))
         end
     end,
+
+    VersionCheck = function(github, script_name)
+        local version = GetResourceMetadata(script_name, "version")
+        PerformHttpRequest(github, function(err, ver, headers)
+            local text = ver:gsub('%s+', '')
+            if (text ~= nil) then
+                if version == text then
+                    print("        Youre version is up to date!        ")
+                else
+                    print("         Current Version: v"..version.."      ")
+                    print("           New Version: v"..text.."          ")
+                end
+            end
+        end, "GET", "", "")
+    end,
 }
 
-local version = GetResourceMetadata(GetCurrentResourceName(), "version")
 local url = "https://raw.githubusercontent.com/CScripts-Network/cs_lib/main/version"
-PerformHttpRequest(url, function(err, ver, headers)
-    local text = ver:gsub('%s+', '')
-    if (text ~= nil) then
-            print(" ____________________________________________")
-            print("  ██████ ███████         ██      ██ ██████  ")
-            print(" ██      ██              ██      ██ ██   ██ ")
-            print(" ██      ███████         ██      ██ ██████  ")
-            print(" ██           ██         ██      ██ ██   ██ ")
-            print("  ██████ ███████ ███████ ███████ ██ ██████  ")
-            print("____________________________________________")
-            print("   Discord: https://discord.gg/2kcXW3gRzg   ")
-        if version == text then
-            print("        Youre version is up to date!        ")
-        else
-            print("         Current Version: v"..version.."      ")
-            print("           New Version: v"..text.."          ")
-        end
-    end
-end, "GET", "", "")
+print(" ____________________________________________")
+print("  ██████ ███████         ██      ██ ██████  ")
+print(" ██      ██              ██      ██ ██   ██ ")
+print(" ██      ███████         ██      ██ ██████  ")
+print(" ██           ██         ██      ██ ██   ██ ")
+print("  ██████ ███████ ███████ ███████ ██ ██████  ")
+print("____________________________________________")
+print("     Website:  https://cscripts.network     ")
+Core.VersionCheck(url, 'cs_lib')
+
 
 function GetLib()
 	return Core

@@ -1,0 +1,44 @@
+@font-face {
+    font-family: fontCs;
+    src: url(SignikaNegative-Regular.ttf);
+}
+
+body {
+    display: none;
+}
+
+.container {
+    font-family: fontCs;
+    font-size: 2vh;
+    color: white;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.theme {
+    width: 20vw;
+    height: 1.8vh;
+    border-radius: 1vw;
+    background-color: rgba(218, 216, 216, 0.3);
+}
+
+.percentage {
+    width: 0%;
+    height: 100%;
+    border-radius: 1vw;
+    background-color: #32bef0;
+    transition: 0.2s;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    padding: 1vh 0.5vw;
+    line-height: 2vh;
+}
+
+.flex i {
+    font-size: 2vh;
+}
