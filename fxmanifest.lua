@@ -4,18 +4,20 @@ lua54 "yes"
 
 author 'CScripts Network'
 description 'CScripts Network Library'
-version '0.0.7'
+version '0.0.8'
 
 ui_page 'html/html.html'
 
 client_scripts {
 	'config.lua',
-	'client/**.lua'
+	'client/**.lua',
+	'client/modules/**.lua'
 }
 
 server_scripts {
 	'config.lua',
-	'server/**.lua'
+	'server/**.lua',
+	'server/modules/**.lua'
 }
 
 exports {

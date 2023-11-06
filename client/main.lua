@@ -113,6 +113,8 @@ Core = {
             return ESX.GetPlayerData().job.name
         elseif framework == 'QB' then
             return QBCore.Functions.GetPlayerData().job.name
+        elseif framework == 'STANDALONE' then
+            return 'STANDALONE'
         end
     end,
 
@@ -282,20 +284,19 @@ Core = {
 
     PauseMenu = function()
         return not IsPauseMenuActive()
+    end,
+
+    GetVehicleInDirection = function()
+        local playerPed    = GetPlayerPed(-1)
+        local playerCoords = GetEntityCoords(playerPed, 1)
+        local inDirection  = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0, 0.0)
+        local rayHandle    = CastRayPointToPoint(playerCoords.x, playerCoords.y, playerCoords.z, inDirection.x, inDirection.y, inDirection.z, 10, playerPed, 0)
+        local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
+        return vehicle
     end
 }
 
 function GetLib()
+    --GetInvokingResource()
 	return Core
 end
-
--- For testing :)
-RegisterCommand("test", function(source, args, rawCommand)
-    Core.Progressbar('stealing', 'gamepad', 'UWU', 10000, false, false, {
-        disableMovement = false,
-        disableMouse = false, 
-        disableCombat = false
-    }, {}, {}, {}, function()
-    end, function ()
-    end)
-end, false)
