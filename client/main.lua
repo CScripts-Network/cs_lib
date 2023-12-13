@@ -293,6 +293,17 @@ Core = {
         local rayHandle    = CastRayPointToPoint(playerCoords.x, playerCoords.y, playerCoords.z, inDirection.x, inDirection.y, inDirection.z, 10, playerPed, 0)
         local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
         return vehicle
+    end,
+
+    DrawTimerProgressBar = function(idx, title, text, titleColor, textColor, usePlayerStyle)
+        DrawTimerProgressBar(idx, title, text, titleColor, textColor, usePlayerStyle)
+    end,
+
+    PedRunAway = function(ped)
+        FreezeEntityPosition(ped, false)
+        SetBlockingOfNonTemporaryEvents(ped, false)
+        SetEntityInvincible(ped, false)
+        TaskSmartFleePed(ped, GetPlayerPed(PlayerId()), 100.0, -1)
     end
 }
 

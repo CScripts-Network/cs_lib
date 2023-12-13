@@ -100,6 +100,29 @@ Core = {
             end
         end, "GET", "", "")
     end,
+
+    MakeItem = function(item, cb)
+        if framework == 'QB' then
+            QBCore.Functions.CreateUseableItem(item, function(source, item)
+                local Player = QBCore.Functions.GetPlayer(source)
+                if not Player.Functions.GetItemByName(item.name) then return end
+                    cb(source)
+            end)
+        elseif framework == 'ESX' then
+            ESX.RegisterUsableItem(item, function(source)
+                cb()
+            end)
+        end
+    end,
+
+    RemoveItem = function(source, item, amount)
+        local Player = Core.GetId(tonumber(source))
+        if framework == 'ESX' then
+            Player.removeInventoryItem(item, amount)
+        elseif framework == 'QB' then
+            Player.Functions.RemoveItem(item, amount)
+        end
+    end,
 }
 
 local url = "https://raw.githubusercontent.com/CScripts-Network/cs_lib/main/version"
