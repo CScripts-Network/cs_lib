@@ -304,6 +304,13 @@ Core = {
         SetBlockingOfNonTemporaryEvents(ped, false)
         SetEntityInvincible(ped, false)
         TaskSmartFleePed(ped, GetPlayerPed(PlayerId()), 100.0, -1)
+    end,
+
+    ReplaceNearProp = function(ped, new_prop, old_prop)
+        local PropNear = GetClosestObjectOfType(GetEntityCoords(ped), 5.0, GetHashKey(old_prop))
+        if DoesEntityExist(PropNear) then
+            CreateModelSwap(GetEntityCoords(PropNear), 0.5, GetHashKey(old_prop), GetHashKey(new_prop), false)
+        end
     end
 }
 
