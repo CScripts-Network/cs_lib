@@ -1,5 +1,5 @@
 Config = {}
-Config.DevMode = true -- Adds test commands and more to your server
+Config.DevMode = false -- Adds test commands and more to your server
 
 Config.Scripts = {
     ClothesMenu = 'qb-clothes', -- Supports: qb-clothes and esx_skin
