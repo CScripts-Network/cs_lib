@@ -311,6 +311,10 @@ Core = {
         if DoesEntityExist(PropNear) then
             CreateModelSwap(GetEntityCoords(PropNear), 0.5, GetHashKey(old_prop), GetHashKey(new_prop), false)
         end
+    end,
+
+    ReplaceString = function(main_text, replace, replaceto)
+        return string.gsub(main_text, replace, replaceto)
     end
 }
 

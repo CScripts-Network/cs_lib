@@ -123,6 +123,10 @@ Core = {
             Player.Functions.RemoveItem(item, amount)
         end
     end,
+
+    ReplaceString = function(main_text, replace, replaceto)
+        return string.gsub(main_text, replace, replaceto)
+    end
 }
 
 local url = "https://raw.githubusercontent.com/CScripts-Network/cs_lib/main/version"
