@@ -315,6 +315,12 @@ Core = {
 
     ReplaceString = function(main_text, replace, replaceto)
         return string.gsub(main_text, replace, replaceto)
+    end,
+
+    HelpNotification = function(text)
+        SetTextComponentFormat("STRING")
+        AddTextComponentString(text)
+        DisplayHelpTextFromStringLabel(0, 0, 1, 50)
     end
 }
 
