@@ -321,7 +321,22 @@ Core = {
         SetTextComponentFormat("STRING")
         AddTextComponentString(text)
         DisplayHelpTextFromStringLabel(0, 0, 1, 50)
-    end
+    end,
+
+    PlayCutscene = function(typer)
+        if IsPedMale(PlayerPedId()) then RequestCutsceneWithPlaybackList(typer, 31, 8)
+            else RequestCutsceneWithPlaybackList(typer, 103, 8) end
+    
+            while not HasCutsceneLoaded() do Wait(10)  
+        end
+        StartCutscene(4)
+    end,
+
+    HelpNotify = function(message)
+        AddTextEntry('cs_lib', message)
+        BeginTextCommandDisplayHelp('cs_lib')
+        EndTextCommandDisplayHelp(0, false, true, -1)
+    end,
 }
 
 function GetLib()
