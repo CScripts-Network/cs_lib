@@ -2,10 +2,10 @@ Config = {}
 Config.DevMode = false -- Adds test commands and more to your server
 
 Config.Scripts = {
-    ClothesMenu = 'qb-clothes', -- Supports: qb-clothes and esx_skin
+    ClothesMenu = 'esx_skin', -- Supports: qb-clothes and esx_skin
     Progressbar = 'default', -- Supports: progressbar and default
     Inventory = 'qb-inventory', -- Supports: qb-inventory
-    Notification = "QB", -- Supports: QB, ESX, OKOK and CUSTOM
+    Notification = "ESX", -- Supports: QB, ESX, OKOK and CUSTOM
     TextUi = "CS_SIDEBTN" -- Supports: OKOK, CS_SIDEBTN, ESX and QB
 }
 

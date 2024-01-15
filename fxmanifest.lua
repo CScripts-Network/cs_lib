@@ -4,7 +4,7 @@ lua54 "yes"
 
 author 'CScripts Network'
 description 'CScripts Network Library'
-version '0.1.0'
+version '0.1.1'
 
 ui_page 'html/html.html'
 
