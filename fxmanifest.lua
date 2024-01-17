@@ -3,10 +3,14 @@ games {'gta5'}
 lua54 "yes"
 
 author 'CScripts Network'
-description 'CScripts Network Library'
-version '0.1.1'
+description 'CScripts Network Lib (Bridge)'
+version '0.1.2'
 
 ui_page 'html/html.html'
+
+--shared_scripts {
+--	'@ox_lib/init.lua'
+--}
 
 client_scripts {
 	'config.lua',

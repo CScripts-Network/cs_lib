@@ -1,9 +1,12 @@
 local framework = GetFramework()
 local ClothesMenu = Config.Scripts.ClothesMenu
 local Progressbar = Config.Scripts.Progressbar
+local ProgressCirclePos = Config.Scripts.ProgressCirclePos
 local Inventory = Config.Scripts.Inventory
 local Notification = Config.Scripts.Notification
+local HelpNotification = Config.Scripts.HelpNotification
 local TextUi = Config.Scripts.TextUi
+local DebugMode = Config.DebugMode
 
 Core = {
     PlayerData = {},
@@ -21,7 +24,9 @@ Core = {
             Core.PlayerData = QBCore.Functions.GetPlayerData()
             return true
         elseif framework == 'STANDALONE' then
-            print('[CS_LIB] Ready to run in standalone')
+            if DebugMode then
+                print('[CS_LIB] Ready to run in standalone')
+            end
             return true
         end
         return true
@@ -35,6 +40,14 @@ Core = {
             exports['okokNotify']:Alert(type, message, 3000, type, false)
         elseif Notification == 'QB' then
             QBCore.Functions.Notify(message, type)
+        elseif Notification == 'mythic' then
+            exports['mythic_notify']:DoCustomHudText(type, message, 8000, {})
+        elseif Notification == 'OX' then
+            lib.notify({
+                title = 'Notification',
+                description = message,
+                type = type
+            })
         elseif framework == 'STANDALONE' then
             AddTextEntry('cs_lib', message)
             BeginTextCommandThefeedPost('cs_lib')
@@ -54,19 +67,25 @@ Core = {
             exports['qb-core']:DrawText(message, position)
         elseif TextUi == 'CS_SIDEBTN' then
             TriggerEvent('cs_sidebtn:add', id, message, btn)
+        elseif TextUi == 'OX' then
+            lib.showTextUI(message)
         end
     end,
 
     RemoveTextUI = function(id)
         if not type then type = 'success' end
         if TextUi == 'ESX' then
-            print('[ERROR] ESX ShowHelpNotification can`t be hidden/removed')
+            if DebugMode then
+                print('[ERROR] ESX ShowHelpNotification can`t be hidden/removed')
+            end
         elseif TextUi == 'OKOK' then
             exports['okokTextUI']:Close()
         elseif TextUi == 'QB' then
             exports['qb-core']:HideText()
         elseif TextUi == 'CS_SIDEBTN' then
-            TriggerEvent('cs_sidebtn:remove', 'help')
+            TriggerEvent('cs_sidebtn:remove', id)
+        elseif TextUi == 'OX' then
+            lib.hideTextUI()
         end
     end,
 
@@ -104,7 +123,9 @@ Core = {
 
     LoadDevCommands = function(Script, Commands)
         for k,v in pairs(Commands) do
-            print('['..Script..'] Loaded `'..v..'` command')
+            if DebugMode then
+                print('['..Script..'] Loaded `'..v..'` command')
+            end
         end
     end,
 
@@ -216,6 +237,26 @@ Core = {
                     end
                 end
             end)
+        elseif Progressbar == 'ox-progressbar' then
+            if lib.progressBar({
+                duration = duration,
+                label = label,
+                useWhileDead = useWhileDead,
+                canCancel = canCancel,
+                disable = disableControls
+                anim = animation
+                prop = prop
+            })  then onFinish() else onCancel() end
+        elseif Progressbar == 'ox-progresscircle' then
+            if lib.progressCircle({
+                duration = duration,
+                position = ProgressCirclePos,
+                useWhileDead = useWhileDead,
+                canCancel = canCancel,
+                disable = disableControls
+                anim = animation
+                prop = prop
+            }) then onFinish() else onCancel() end
         end
     end,
 
@@ -229,9 +270,12 @@ Core = {
         TaskPlayAnim(PlayerPedId(), dict, animation, 2.0, 2.0, -1, 49, 0, false, false, false)
     end,
 
-    OpenShop = function(Shop, Items)
+    OpenShop = function(Shop, Items, ox_id)
+        if not ox_id then ox_id = 0 end
         if Inventory == 'qb-inventory' and framework == 'QB' then
             TriggerServerEvent("inventory:server:OpenInventory", "shop", Shop, Items)
+        elseif Inventory == 'ox_inventory' then
+            exports.ox_inventory:openInventory('shop', { type = Shop, id = ox_id })
         end
     end,
 
@@ -318,9 +362,15 @@ Core = {
     end,
 
     HelpNotification = function(text)
-        SetTextComponentFormat("STRING")
-        AddTextComponentString(text)
-        DisplayHelpTextFromStringLabel(0, 0, 1, 50)
+        if HelpNotification == 'default' then
+            SetTextComponentFormat("STRING")
+            AddTextComponentString(text)
+            DisplayHelpTextFromStringLabel(0, 0, 1, 50)
+        elseif HelpNotification == 'ESX' then
+            ESX.ShowHelpNotification(text)
+        elseif HelpNotification == 'QB' then
+            QBCore.Functions.Notify(text)
+        end
     end,
 
     PlayCutscene = function(typer)

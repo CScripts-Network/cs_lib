@@ -57,8 +57,12 @@ Core = {
             Player.ShowNotification(message, false, true, nil)
         elseif Notification == 'OKOK' then
             TriggerClientEvent('okokNotify:Alert', source, type, message, 3000, type, false)
+        elseif Notification == 'mythic' then 
+            exports['mythic_notify']:DoCustomHudText(type, message, 3000, type)
         elseif Config.Scripts.Notification == 'QB' then
             TriggerClientEvent('QBCore:Notify', source, message)
+        elseif Notification == 'OX' then
+            TriggerClientEvent('ox_lib:notify', source, {description = message, type = type})
         else
             CustomNotifyServer(type, message)
         end
