@@ -387,6 +387,17 @@ Core = {
         BeginTextCommandDisplayHelp('cs_lib')
         EndTextCommandDisplayHelp(0, false, true, -1)
     end,
+
+    SetPed = function(player, ped)
+        if IsModelInCdimage(ped) and IsModelValid(ped) then
+            RequestModel(ped)
+            while not HasModelLoaded(ped) do
+              Wait(0)
+            end
+            SetPlayerModel(player, ped)
+            SetModelAsNoLongerNeeded(ped)
+        end
+    end
 }
 
 function GetLib()
