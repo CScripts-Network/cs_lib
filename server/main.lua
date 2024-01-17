@@ -90,7 +90,7 @@ Core = {
         end
     end,
 
-    VersionCheck = function(github, script_name)
+    VersionCheck = function(github, script_name, changelog)
         local version = GetResourceMetadata(script_name, "version")
         PerformHttpRequest(github, function(err, ver, headers)
             local text = ver:gsub('%s+', '')
@@ -100,6 +100,14 @@ Core = {
                 else
                     print("         Current Version: v"..version.."      ")
                     print("           New Version: v"..text.."          ")
+
+                    if changelog then
+                        PerformHttpRequest(changelog, function(err, ver2, headers)
+                            print('Change Log:')
+                            print(ver2)
+                        end, "GET", "", "")
+                    end
+
                 end
             end
         end, "GET", "", "")
@@ -133,7 +141,6 @@ Core = {
     end
 }
 
-local url = "https://raw.githubusercontent.com/CScripts-Network/cs_lib/main/version"
 print(" ____________________________________________")
 print("  ██████ ███████         ██      ██ ██████  ")
 print(" ██      ██              ██      ██ ██   ██ ")
@@ -142,7 +149,7 @@ print(" ██           ██         ██      ██ ██   ██ ")
 print("  ██████ ███████ ███████ ███████ ██ ██████  ")
 print("____________________________________________")
 print("   Discord:  https://discord.gg/raMUjtWfwm   ")
-Core.VersionCheck(url, 'cs_lib')
+Core.VersionCheck("https://raw.githubusercontent.com/CScripts-Network/cs_lib/main/version", 'cs_lib', "https://raw.githubusercontent.com/CScripts-Network/cs_lib/main/changelog")
 
 
 function GetLib()
