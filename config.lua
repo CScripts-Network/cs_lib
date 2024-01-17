@@ -10,7 +10,7 @@ Config.Scripts = {
     Notification = "ESX", -- Supports: QB, ESX, OKOK, OX, mythic and CUSTOM
     HelpNotification = "ESX", -- Supports: default, ESX and QB
     TextUi = "CS_SIDEBTN" -- Supports: OKOK, CS_SIDEBTN, ESX, OX and QB
-},
+}
 
 -- Functions
 function CustomNotify(type, message)
