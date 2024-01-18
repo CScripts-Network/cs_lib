@@ -243,8 +243,8 @@ Core = {
                 label = label,
                 useWhileDead = useWhileDead,
                 canCancel = canCancel,
-                disable = disableControls
-                anim = animation
+                disable = disableControls,
+                anim = animation,
                 prop = prop
             })  then onFinish() else onCancel() end
         elseif Progressbar == 'ox-progresscircle' then
@@ -253,8 +253,8 @@ Core = {
                 position = ProgressCirclePos,
                 useWhileDead = useWhileDead,
                 canCancel = canCancel,
-                disable = disableControls
-                anim = animation
+                disable = disableControls,
+                anim = animation,
                 prop = prop
             }) then onFinish() else onCancel() end
         end
@@ -271,7 +271,8 @@ Core = {
     end,
 
     OpenShop = function(Shop, Items, ox_id)
-        if not ox_id then ox_id = 0 end
+        if not ox_id then ox_id = 'success' end
+
         if Inventory == 'qb-inventory' and framework == 'QB' then
             TriggerServerEvent("inventory:server:OpenInventory", "shop", Shop, Items)
         elseif Inventory == 'ox_inventory' then

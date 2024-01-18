@@ -138,7 +138,46 @@ Core = {
 
     ReplaceString = function(main_text, replace, replaceto)
         return string.gsub(main_text, replace, replaceto)
-    end
+    end,
+
+    SocietyAddMoney = function(job, money)
+        if framework == 'ESX' then
+            TriggerEvent('esx_addonaccount:getSharedAccount', 'society_' ..job, function(account)
+                if account then
+                    account.addMoney(money)
+                end
+            end)
+        elseif framework == 'QB' then
+            exports['qb-management']:AddMoney(job, money)
+        end
+    end,
+
+    SocietyRemoveMoney = function(job, money)
+        if framework == 'ESX' then
+            TriggerEvent('esx_addonaccount:getSharedAccount', 'society_' ..job, function(account)
+                if account then
+                    account.removeMoney(money)
+                end
+            end)
+        elseif framework == 'QB' then
+            exports['qb-management']:RemoveMoney(job, money)
+        end
+    end,
+
+    GetTotalMoney = function(player, type)
+        if framework == 'ESX' then
+            local xPlayer = ESX.GetPlayerFromId(player)
+            return xPlayer.getAccount(type).money
+        elseif framework == 'QB' then
+            local Player = QBCore.Functions.GetPlayer(player)
+            if type == 'BANK' then
+                return Player.PlayerData.money.bank
+            elseif type == 'CASH' then
+                return Player.PlayerData.money.cash
+            end
+        end
+    end,
+
 }
 
 print(" ____________________________________________")
