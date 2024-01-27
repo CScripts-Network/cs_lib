@@ -54,7 +54,7 @@ Core = {
     Notification = function(source, message, type)
         if not type then type = 'success' end
         if Config.Scripts.Notification == 'ESX' then
-            Player.ShowNotification(message, false, true, nil)
+            TriggerClientEvent('esx:showNotification', source, message)
         elseif Notification == 'OKOK' then
             TriggerClientEvent('okokNotify:Alert', source, type, message, 3000, type, false)
         elseif Notification == 'mythic' then 
@@ -122,7 +122,7 @@ Core = {
             end)
         elseif framework == 'ESX' then
             ESX.RegisterUsableItem(item, function(source)
-                cb()
+                cb(source)
             end)
         end
     end,
