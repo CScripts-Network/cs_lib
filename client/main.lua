@@ -398,6 +398,21 @@ Core = {
             SetPlayerModel(player, ped)
             SetModelAsNoLongerNeeded(ped)
         end
+    end,
+
+    loadDict = function(dict)
+        while not HasAnimDictLoaded(dict) do Wait(0) RequestAnimDict(dict) end
+        return dict
+    end,
+
+    GetClosestVehicleToPlayer = function()
+        local plyPed = PlayerPedId()
+        local plyPos = GetEntityCoords(plyPed, false)
+        local plyOffset = GetOffsetFromEntityInWorldCoords(plyPed, 0.0, 1.0, 0.0)
+        local radius = 3.0
+        local rayHandle = StartShapeTestCapsule(plyPos.x, plyPos.y, plyPos.z, plyOffset.x, plyOffset.y, plyOffset.z, radius, 10, plyPed, 7)
+        local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
+        return vehicle
     end
 }
 

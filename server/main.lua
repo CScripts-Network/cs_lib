@@ -178,6 +178,27 @@ Core = {
         end
     end,
 
+    PlayersWithJob = function(jobName)
+        local jobCount = 0
+        if framework == 'ESX' then
+            for _, player in pairs(ESX.GetExtendedPlayers()) do
+                local job = player.getJob()
+                if job.name == jobName then
+                    jobCount = jobCount + 1
+                end
+            end
+        elseif framework == 'QB' then
+            for _, players in pairs(QBCore.Functions.GetPlayers()) do
+                local player = QBCore.Functions.GetPlayer(players)
+                local job = player.PlayerData.job
+                if job.name == jobName then
+                    jobCount = jobCount + 1
+                end
+            end
+        end
+        return jobCount
+    end
+
 }
 
 print(" ____________________________________________")
