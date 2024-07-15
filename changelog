@@ -1,3 +1,2 @@
-- Added `PlayersWithJob` so you can see how much players got the job
-- Added `loadDict` to load animations
-- Added `GetClosestVehicleToPlayer` to get the closest vehicle around player
+- Added `CloseDialogWithPed` and `OpenDialogWithPed` to close and open dialog camera with ped
+- Added `GetClosestPed` to Get closest player to player

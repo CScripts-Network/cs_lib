@@ -7,6 +7,7 @@ local Notification = Config.Scripts.Notification
 local HelpNotification = Config.Scripts.HelpNotification
 local TextUi = Config.Scripts.TextUi
 local DebugMode = Config.DebugMode
+local cam
 
 Core = {
     PlayerData = {},
@@ -413,6 +414,64 @@ Core = {
         local rayHandle = StartShapeTestCapsule(plyPos.x, plyPos.y, plyPos.z, plyOffset.x, plyOffset.y, plyOffset.z, radius, 10, plyPed, 7)
         local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
         return vehicle
+    end,
+    GetClosestPed = function(minDistance)
+        local playerPed = GetPlayerPed(-1)
+        local playerCoords = GetEntityCoords(playerPed)
+        local closestPed = nil
+        
+        for _, ped in ipairs(GetGamePool('CPed')) do
+            if ped ~= playerPed and not IsPedAPlayer(ped) then
+                local pedCoords = GetEntityCoords(ped)
+                local distance = GetDistanceBetweenCoords(playerCoords, pedCoords, true)
+                if distance <= minDistance then
+                    closestPed = ped
+                    break
+                end
+            end
+        end
+        return closestPed
+    end,
+    OpenDialogWithPed = function(ped)
+        local coords = GetOffsetFromEntityInWorldCoords(ped, 0, 1.5, 0.3)
+        cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
+        SetCamActive(cam, true)
+        RenderScriptCams(true, true, 500, true, true)
+        SetCamCoord(cam, coords.x, coords.y, coords.z + 0.2)
+        SetCamRot(cam, 0.0, 0.0, GetEntityHeading(ped) + 180, 5)
+        SetCamFov(cam, 40.0)
+    
+        -- Ped
+        SetPedCombatAttributes(ped, 46, true)                     
+        SetPedFleeAttributes(ped, 0, 0)               
+        SetBlockingOfNonTemporaryEvents(ped, true)
+        
+        SetEntityAsMissionEntity(ped, true, true)
+        FreezeEntityPosition(ped, true)
+        SetEntityInvincible(ped, true)
+        SetPedDiesWhenInjured(ped, false)
+        SetPedHearingRange(ped, 1.0)
+        SetPedAlertness(ped, 0)
+        ClearPedTasksImmediately(ped)
+    end,
+    CloseDialogWithPed = function(ped)
+        if cam then
+            SetCamActive(cam, false)
+            RenderScriptCams(false, true, 500, true, true)
+            DestroyCam(cam, false)
+            cam = nil
+        end
+    
+        -- Ped
+        SetPedCombatAttributes(ped, 46, false)                                 
+        SetBlockingOfNonTemporaryEvents(ped, false)
+        SetEntityAsMissionEntity(ped, false, false)
+        FreezeEntityPosition(ped, false)
+        SetEntityInvincible(ped, false)
+        SetPedHearingRange(ped, 1.0)
+        SetPedAlertness(ped, 0)
+        -- Resume ped tasks
+        TaskWanderStandard(ped, 10.0, 10)  -- Makes the ped resume wandering
     end
 }
 
