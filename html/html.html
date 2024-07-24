@@ -10,14 +10,14 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="flex">
+    <div class="container-progressbar">
+        <div class="flex-progressbar">
             <div class="left">
             </div>
             <div class="right"></div>
         </div>
-        <div class="theme">
-            <div class="percentage"></div>
+        <div class="theme-progressbar">
+            <div class="percentage-progressbar"></div>
         </div>
     </div>
 </body>
@@ -33,7 +33,7 @@
             var text = '<i class="fa-solid fa-'+data.icon+'"></i> '+data.label;
             $('.left').html(text);
             $("body").fadeIn('fast', function() {
-                $(".percentage").stop().css({"width": 0, "background-color": "#1787e2a6"}).animate({
+                $(".percentage-progressbar").stop().css({"width": 0, "background-color": "#1787e2a6"}).animate({
                   width: '100%'
                 }, {
                   duration: parseInt(data.duration),
@@ -42,7 +42,7 @@
                   },
                   complete: function() {
                     $("body").fadeOut('fast', function() {
-                        $('.percentage').css("width", "0%");
+                        $('.percentage-progressbar').css("width", "0%");
                         $(".right").html("0%")
                         $.post('https://cs_lib/FinishAction', JSON.stringify({
                             })
@@ -55,12 +55,12 @@
     
         Progressbar.ProgressCancel = function() {
             $(".left").text("CANCELLED");
-            $(".percentage").stop().css( {"width": "100%", "background-color": "rgba(71, 0, 0, 0.8)"});
-            $('.percentage').removeClass('cancellable');
+            $(".percentage-progressbar").stop().css( {"width": "100%", "background-color": "rgba(71, 0, 0, 0.8)"});
+            $('.percentage-progressbar').removeClass('cancellable');
     
             cancelledTimer = setTimeout(function () {
                 $("body").fadeOut('fast', function() {
-                    $(".percentage").css("width", 0);
+                    $(".percentage-progressbar").css("width", 0);
                     $.post('https://cs_lib/CancelAction', JSON.stringify({
                         })
                     );
@@ -69,7 +69,7 @@
         };
     
         Progressbar.CloseUI = function() {
-            $('.main-container').fadeOut('fast');
+            $('.container-progressbar').fadeOut('fast');
         };
         
         window.addEventListener('message', function(event) {

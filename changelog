@@ -1,2 +1,2 @@
-- Added `CloseDialogWithPed` and `OpenDialogWithPed` to close and open dialog camera with ped
-- Added `GetClosestPed` to Get closest player to player
+- Updated html files to add new functions in html easier
+- Due to high demand on support for 17mov hud notification we added it ;)

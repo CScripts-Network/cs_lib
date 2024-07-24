@@ -49,6 +49,8 @@ Core = {
                 description = message,
                 type = type
             })
+        elseif Notification == '17mov' then
+            exports["17mov_Hud"]:ShowNotification(message, type, 'Notification', 8000)
         elseif framework == 'STANDALONE' then
             AddTextEntry('cs_lib', message)
             BeginTextCommandThefeedPost('cs_lib')
@@ -415,6 +417,7 @@ Core = {
         local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
         return vehicle
     end,
+
     GetClosestPed = function(minDistance)
         local playerPed = GetPlayerPed(-1)
         local playerCoords = GetEntityCoords(playerPed)
@@ -432,6 +435,7 @@ Core = {
         end
         return closestPed
     end,
+
     OpenDialogWithPed = function(ped)
         local coords = GetOffsetFromEntityInWorldCoords(ped, 0, 1.5, 0.3)
         cam = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
@@ -440,12 +444,9 @@ Core = {
         SetCamCoord(cam, coords.x, coords.y, coords.z + 0.2)
         SetCamRot(cam, 0.0, 0.0, GetEntityHeading(ped) + 180, 5)
         SetCamFov(cam, 40.0)
-    
-        -- Ped
         SetPedCombatAttributes(ped, 46, true)                     
         SetPedFleeAttributes(ped, 0, 0)               
         SetBlockingOfNonTemporaryEvents(ped, true)
-        
         SetEntityAsMissionEntity(ped, true, true)
         FreezeEntityPosition(ped, true)
         SetEntityInvincible(ped, true)
@@ -454,6 +455,7 @@ Core = {
         SetPedAlertness(ped, 0)
         ClearPedTasksImmediately(ped)
     end,
+
     CloseDialogWithPed = function(ped)
         if cam then
             SetCamActive(cam, false)
@@ -461,8 +463,6 @@ Core = {
             DestroyCam(cam, false)
             cam = nil
         end
-    
-        -- Ped
         SetPedCombatAttributes(ped, 46, false)                                 
         SetBlockingOfNonTemporaryEvents(ped, false)
         SetEntityAsMissionEntity(ped, false, false)
@@ -470,12 +470,10 @@ Core = {
         SetEntityInvincible(ped, false)
         SetPedHearingRange(ped, 1.0)
         SetPedAlertness(ped, 0)
-        -- Resume ped tasks
-        TaskWanderStandard(ped, 10.0, 10)  -- Makes the ped resume wandering
+        TaskWanderStandard(ped, 10.0, 10)
     end
 }
 
 function GetLib()
-    --GetInvokingResource()
 	return Core
 end

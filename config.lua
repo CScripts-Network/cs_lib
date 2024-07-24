@@ -7,7 +7,7 @@ Config.Scripts = {
     Progressbar = 'default', -- Supports: progressbar, ox-progressbar, ox-progresscircle and default
     ProgressCirclePos = 'bottom', -- Supports: middle or bottom ! ONLY USE IF YOU'RE USING OX-PROGRESSCIRCLE !
     Inventory = 'qb-inventory', -- Supports: qb-inventory and ox_inventory
-    Notification = "ESX", -- Supports: QB, ESX, OKOK, OX, mythic and CUSTOM
+    Notification = "ESX", -- Supports: QB, ESX, OKOK, OX, mythic, 17mov and CUSTOM
     HelpNotification = "ESX", -- Supports: default, ESX and QB
     TextUi = "CS_SIDEBTN" -- Supports: OKOK, CS_SIDEBTN, ESX, OX and QB
 }

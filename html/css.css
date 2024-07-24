@@ -7,7 +7,7 @@ body {
     display: none;
 }
 
-.container {
+.container-progressbar {
     font-family: fontCs;
     font-size: 2vh;
     color: white;
@@ -17,14 +17,14 @@ body {
     transform: translateY(-50%) translateX(-50%);
 }
 
-.theme {
+.theme-progressbar {
     width: 20vw;
     height: 1.8vh;
     border-radius: 1vw;
     background-color: rgba(218, 216, 216, 0.3);
 }
 
-.percentage {
+.percentage-progressbar {
     width: 0%;
     height: 100%;
     border-radius: 1vw;
@@ -32,13 +32,13 @@ body {
     transition: 0.2s;
 }
 
-.flex {
+.flex-progressbar {
     display: flex;
     justify-content: space-between;
     padding: 1vh 0.5vw;
     line-height: 2vh;
 }
 
-.flex i {
+.flex-progressbar i {
     font-size: 2vh;
 }
